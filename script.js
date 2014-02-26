@@ -1,16 +1,12 @@
 
 
-
 window.onload = function(){
 
     var Entopy = 0;
     var row = $(" tr").length - 1;
 
-    var resultType = TypeOfValue(" .result");
-
-    alert(NumberOfType(" .result"));
-    alert(resultType);
-
+    Entopy = EntopyCalculate(" .result",row);
+    alert(Entopy);
 
 };
 
@@ -46,9 +42,31 @@ function NumberOfType(column){
     return result;
 
 }
+/**
+ *
+ * @param column
+ * @param row
+ * @returns {number}
+ */
+function EntopyCalculate(column,row){
 
-function infoCalculate(){
+    var Entopy = 0;
+    var resultType = TypeOfValue(column);
+    var resultNumber = NumberOfType(column);
+    for(var x in resultType) Entopy += info(resultNumber[x],row);
+    Entopy = Entopy.toFixed(2);
+    return Entopy;
 
+}
+/**
+ *
+ * @param resultNumber
+ * @param row
+ * @returns {number}
+ */
+function info(resultNumber,row){
 
+    var info = -(resultNumber/row)*Math.log2(resultNumber/row);
+    return info;
 
 }
