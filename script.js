@@ -6,10 +6,41 @@ window.onload = function(){
     var row = $(" tr").length - 1;
 
     Entopy = EntopyCalculate(" .result",row);
-    alert(Entopy);
+//    alert(Entopy);
+
+    /////////////////
+
+    var Type = TypeOfValue(" .hair");
+    var Number = NumberOfType(" .hair");
+    var fetch = fetchColumn(" .hair");
+    var resultfetch = fetchColumn(" .result");
+    var gain = 0,count = 0;
+    for(var x in Type){
+        for(var z in resultfetch){
+            if(resultfetch[z] == "none"){
+                if(Type[x] == fetch[z])count++;
+            }
+        }
+        gain += (Number[x]/row)*(info(count,Number[x])+info(Number[x]-count,Number[x]));
+        count = 0;
+    }
+
+    gain = (Entopy-gain).toFixed(2);
+    alert(gain);
 
 };
+/**
+ *
+ * @param column
+ * @returns {Array}
+ */
+function fetchColumn(column){
 
+    var arr=[];
+    $(column).each(function(){ arr.push($(this).val()); });
+    return arr;
+
+}
 /**
  *
  * @param column = classname
@@ -24,28 +55,25 @@ function TypeOfValue(column){
     return kindarr;
 
 }
-
 /**
  *
- * @param column
+ * @param column = classname
  * @returns {Array}
  */
 function NumberOfType(column){
 
-    var count = 0,result = [];
-    var resultType = TypeOfValue(column);
+    var count = 0,result = [],resultType = TypeOfValue(column);
     for(var x in resultType){
         $(column).each(function(){ if(resultType[x] == $(this).val()) count++; });
         result.push(count);
         count=0;
     }
     return result;
-
 }
 /**
  *
- * @param column
- * @param row
+ * @param column = classname
+ * @param row = row number
  * @returns {number}
  */
 function EntopyCalculate(column,row){
@@ -58,6 +86,11 @@ function EntopyCalculate(column,row){
     return Entopy;
 
 }
+function GainCalculate(){
+
+
+
+}
 /**
  *
  * @param resultNumber
@@ -66,7 +99,15 @@ function EntopyCalculate(column,row){
  */
 function info(resultNumber,row){
 
-    var info = -(resultNumber/row)*Math.log2(resultNumber/row);
-    return info;
+    if(resultNumber > 0){
+
+        var info = -(resultNumber/row)*Math.log2(resultNumber/row);
+        return info;
+
+    }else{
+
+        return 0;
+
+    }
 
 }
