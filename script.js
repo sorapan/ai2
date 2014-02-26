@@ -10,23 +10,7 @@ window.onload = function(){
 
     /////////////////
 
-    var Type = TypeOfValue(" .hair");
-    var Number = NumberOfType(" .hair");
-    var fetch = fetchColumn(" .hair");
-    var resultfetch = fetchColumn(" .result");
-    var gain = 0,count = 0;
-    for(var x in Type){
-        for(var z in resultfetch){
-            if(resultfetch[z] == "none"){
-                if(Type[x] == fetch[z])count++;
-            }
-        }
-        gain += (Number[x]/row)*(info(count,Number[x])+info(Number[x]-count,Number[x]));
-        count = 0;
-    }
-
-    gain = (Entopy-gain).toFixed(2);
-    alert(gain);
+    alert(GainCalculate(".hair",".result",Entopy,row));
 
 };
 /**
@@ -86,9 +70,25 @@ function EntopyCalculate(column,row){
     return Entopy;
 
 }
-function GainCalculate(){
+function GainCalculate(column,resultcolumn,Entopy,row){
 
+    var Type = TypeOfValue(column);
+    var Number = NumberOfType(column);
+    var fetch = fetchColumn(column);
+    var resultfetch = fetchColumn(resultcolumn);
+    var gain = 0,count = 0;
+    for(var x in Type){
+        for(var z in resultfetch){
+            if(resultfetch[z] == "none"){
+                if(Type[x] == fetch[z])count++;
+            }
+        }
+        gain += (Number[x]/row)*(info(count,Number[x])+info(Number[x]-count,Number[x]));
+        count = 0;
+    }
 
+    gain = (Entopy-gain).toFixed(2);
+    return gain;
 
 }
 /**
