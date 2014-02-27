@@ -1,18 +1,46 @@
+$(function(){
+    $(" input").each(function(){
 
+        if($(this).attr("class") != "result") $(this).attr("id","variable");
+
+    });
+
+});
 
 window.onload = function(){
 
     var Entopy = 0;
     var row = $(" tr").length - 1;
+    var node = [];
 
     Entopy = EntopyCalculate(" .result",row);
-//    alert(Entopy);
 
-    /////////////////
+    node['hair'] = GainCalculate(".hair",".result",Entopy,row);
+    node['height'] = GainCalculate(".height",".result",Entopy,row);
+    node['weight'] = GainCalculate(".weight",".result",Entopy,row);
+    node['lotion'] = GainCalculate(".lotion",".result",Entopy,row);
+    node['gender'] = GainCalculate(".gender",".result",Entopy,row);
 
-    alert(GainCalculate(".hair",".result",Entopy,row));
+    alert(highestValue(node));
 
 };
+/**
+ *
+ * @param arr
+ * @returns {key}
+ */
+function highestValue(arr){
+
+    var value = 0,key = 0;
+    for(var i in arr){
+        if(arr[i] > value){
+            value = arr[i];
+            key = i;
+        }
+    }
+    return key;
+
+}
 /**
  *
  * @param column
@@ -70,6 +98,14 @@ function EntopyCalculate(column,row){
     return Entopy;
 
 }
+/**
+ *
+ * @param column
+ * @param resultcolumn
+ * @param Entopy
+ * @param row
+ * @returns {number}
+ */
 function GainCalculate(column,resultcolumn,Entopy,row){
 
     var Type = TypeOfValue(column);
@@ -86,7 +122,6 @@ function GainCalculate(column,resultcolumn,Entopy,row){
         gain += (Number[x]/row)*(info(count,Number[x])+info(Number[x]-count,Number[x]));
         count = 0;
     }
-
     gain = (Entopy-gain).toFixed(2);
     return gain;
 
