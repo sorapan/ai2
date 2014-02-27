@@ -1,27 +1,31 @@
 $(function(){
-    $(" input").each(function(){
-
+    $(" tr:eq(1) input").each(function(){
         if($(this).attr("class") != "result") $(this).attr("id","variable");
-
     });
-
 });
 
 window.onload = function(){
 
     var Entopy = 0;
     var row = $(" tr").length - 1;
-    var node = [];
+    var column = [];
 
     Entopy = EntopyCalculate(" .result",row);
 
-    node['hair'] = GainCalculate(".hair",".result",Entopy,row);
-    node['height'] = GainCalculate(".height",".result",Entopy,row);
-    node['weight'] = GainCalculate(".weight",".result",Entopy,row);
-    node['lotion'] = GainCalculate(".lotion",".result",Entopy,row);
-    node['gender'] = GainCalculate(".gender",".result",Entopy,row);
+    $(" #variable").each(function(){
+        $("."+$(this).attr("class")).each(function(){
+            column[$(this).attr("class")] = GainCalculate("."+$(this).attr("class"),".result",Entopy,row);
+        });
+    });
 
-    alert(highestValue(node));
+    ////////////////check child node
+
+    var rootnode = highestValue(column);
+    var rootnodeType = TypeOfValue("."+rootnode);
+    var resultColumn = fetchColumn(" .result");
+    var leafnode = [];
+    alert(rootnodeType);
+
 
 };
 /**
@@ -135,14 +139,10 @@ function GainCalculate(column,resultcolumn,Entopy,row){
 function info(resultNumber,row){
 
     if(resultNumber > 0){
-
         var info = -(resultNumber/row)*Math.log2(resultNumber/row);
         return info;
-
     }else{
-
         return 0;
-
     }
 
 }
