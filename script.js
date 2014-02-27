@@ -9,6 +9,7 @@ window.onload = function(){
     var Entopy = 0;
     var row = $(" tr").length - 1;
     var column = [];
+    var tree=[];
 
     Entopy = EntopyCalculate(" .result",row);
 
@@ -22,10 +23,37 @@ window.onload = function(){
 
     var rootnode = highestValue(column);
     var rootnodeType = TypeOfValue("."+rootnode);
+    var rootnodeFetch = fetchColumn("."+rootnode);
+    var rootnodeNumber = NumberOfType("."+rootnode);
     var resultColumn = fetchColumn(" .result");
-    var leafnode = [];
-    alert(rootnodeType);
+    var resultType = TypeOfValue(" .result");
+    var leafnode = [],count = 0;
 
+    tree.push(rootnode);
+
+    for(var x in rootnodeType){
+        for(var y in resultColumn){
+            if(resultColumn[y] == "none"){
+                if(rootnodeType[x] == rootnodeFetch[y]) count++;
+            }
+        }
+        if(count==rootnodeNumber[x]){
+
+            tree.push("==>"+rootnodeType[x]+"==>none");
+
+        }else if(count == 0){
+
+            tree.push("==>"+rootnodeType[x]+"==>sunburn");
+
+        }else{
+
+
+
+        }
+        count= 0;
+    }
+
+    alert(tree);
 
 };
 /**
@@ -85,6 +113,7 @@ function NumberOfType(column){
         count=0;
     }
     return result;
+
 }
 /**
  *
