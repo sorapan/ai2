@@ -12,12 +12,18 @@ window.onload = function(){
     var tree=[];
 
     Entopy = EntopyCalculate(" .result",row);
-
+    $(" #calcu").click(function(){
     $(" #variable").each(function(){
         $("."+$(this).attr("class")).each(function(){
             column[$(this).attr("class")] = GainCalculate("."+$(this).attr("class"),".result",Entopy,row);
         });
     });
+
+    tree.push(highestValue(column));
+
+
+    $("."+highestValue(column)+":eq(0)").removeAttr('id');
+
 
     ////////////////check child node
 
@@ -27,9 +33,7 @@ window.onload = function(){
     var rootnodeNumber = NumberOfType("."+rootnode);
     var resultColumn = fetchColumn(" .result");
     var resultType = TypeOfValue(" .result");
-    var leafnode = [],count = 0;
-
-    tree.push(rootnode);
+    var count = 0;
 
     for(var x in rootnodeType){
         for(var y in resultColumn){
@@ -37,23 +41,58 @@ window.onload = function(){
                 if(rootnodeType[x] == rootnodeFetch[y]) count++;
             }
         }
-        if(count==rootnodeNumber[x]){
+        if(count==rootnodeNumber[x]) tree.push("==>"+rootnodeType[x]+"==>none");
+        else if(count==0) tree.push("==>"+rootnodeType[x]+"==>sunburn");
+        else{
 
-            tree.push("==>"+rootnodeType[x]+"==>none");
+            var ent = 0;
+            ent += info(count,rootnodeNumber[x]);
+            ent += info(rootnodeNumber[x]-count,rootnodeNumber[x]);
 
-        }else if(count == 0){
+            var gain = 0,colu=[],asas=0;
 
-            tree.push("==>"+rootnodeType[x]+"==>sunburn");
+            $(" #variable").each(function(){
 
-        }else{
+                var aa =  NumberOfType("."+$(this).attr("class"));
+                $("."+$(this).attr("class")).each(function(){
 
+                    var Type = TypeOfValue(column);
+                    var Number = NumberOfType(column);
+                    var fetch = fetchColumn(column);
+                    var resultfetch = fetchColumn(resultcolumn);
+                    var gain = 0,cc = 0;
 
+                    for(var x in Type){
+                        for(var z in resultfetch){
+                            if(resultfetch[z] == "none"){
+                                if(Type[x] == fetch[z])cc++;
+                            }
+                        }
+                    gain += (aa/rootnodeNumber[x])*(info(count,aa)+info(aa-count,aa));
+                    }
+
+                });
+                colu[$(this).attr("class")] = gain;
+                gain = 0;
+
+            });
+
+            alert(colu);
+
+            ///////////////////
 
         }
         count= 0;
     }
 
-    alert(tree);
+    //Display
+    for(var ii in tree){
+
+        $(" #result").append(tree[ii]+"<br>");
+
+    }
+
+    });
 
 };
 /**
