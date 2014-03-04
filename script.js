@@ -45,41 +45,20 @@ window.onload = function(){
         else if(count==0) tree.push("==>"+rootnodeType[x]+"==>sunburn");
         else{
 
-            var ent = 0;
-            ent += info(count,rootnodeNumber[x]);
-            ent += info(rootnodeNumber[x]-count,rootnodeNumber[x]);
+            tree.push("==>"+rootnodeType[x]+"==>");
 
-            var gain = 0,colu=[],asas=0;
+            var entop = 0;
+            entop += info(count,rootnodeNumber[x]);
+            entop += info(rootnodeNumber[x]-count,rootnodeNumber[x]);
 
-            $(" #variable").each(function(){
 
-                var aa =  NumberOfType("."+$(this).attr("class"));
-                $("."+$(this).attr("class")).each(function(){
-
-                    var Type = TypeOfValue(column);
-                    var Number = NumberOfType(column);
-                    var fetch = fetchColumn(column);
-                    var resultfetch = fetchColumn(resultcolumn);
-                    var gain = 0,cc = 0;
-
-                    for(var x in Type){
-                        for(var z in resultfetch){
-                            if(resultfetch[z] == "none"){
-                                if(Type[x] == fetch[z])cc++;
-                            }
-                        }
-                    gain += (aa/rootnodeNumber[x])*(info(count,aa)+info(aa-count,aa));
-                    }
-
-                });
-                colu[$(this).attr("class")] = gain;
-                gain = 0;
-
-            });
-
-            alert(colu);
 
             ///////////////////
+            $(" #variable").each(function(){
+
+
+
+            });
 
         }
         count= 0;
