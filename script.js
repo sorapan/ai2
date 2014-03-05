@@ -52,15 +52,27 @@ window.onload = function(){
             entop += info(rootnodeNumber[x]-count,rootnodeNumber[x]);
 
 
-
+            var coll = [],gainn1,gainn2;
             ///////////////////
             $(" #variable").each(function(){
+                $("."+$(this).attr("class")).each(function(){
 
+                    var Number = NumberOfType(" .height");
+                    var Number2 = NumberOfType(" .lotion");
 
+//                    coll[$(this).attr("class")] = GainCalculate("."+$(this).attr("class"),".result",entop,row);
+                    gainn1 = (Number[0]/rootnodeNumber[x])*(info(rootnodeNumber[x],Number[0])+info(Number[0]-rootnodeNumber[x],Number[0]))+
+                        (Number[1]/rootnodeNumber[x])*(info(rootnodeNumber[x],Number[1])+info(Number[1]-rootnodeNumber[x],Number[1]))+
+                        (Number[2]/rootnodeNumber[x])*(info(rootnodeNumber[x],Number[2])+info(Number[2]-rootnodeNumber[x],Number[2]));
+                    gainn1 = entop - gainn1;
 
+                });
             });
 
+            alert(gainn1);
+
         }
+
         count= 0;
     }
 
