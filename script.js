@@ -68,7 +68,7 @@ window.onload = function(){
                                 if(typeheight[zz]==fetchHeight[xx])cc2++;
                             }
                         }
-                        gainn1 += (cc/countnode)*(info(cc2,cc)+info(cc-cc2,cc));
+                        gainn1+=(cc/countnode)*(info(cc2,cc)+info(cc-cc2,cc));
                         cc=0;
                         cc2=0;
                     }
@@ -76,12 +76,32 @@ window.onload = function(){
                     coll[$(this).attr("class")] = gainn1;
                     gainn1 = 0;
                 });
+
+                var node2 = highestValue(coll);
+                tree.push("------>"+node2+"==>");
+
+                var node2Type = TypeOfValue("."+node2);
+                var node2Fetch = fetchColumn("."+node2);
+                var keynode2 = [],ccee = 0;
+
+
+                for(var ee in resultColumn){
+                    if(rootnodeFetch[ee] == rootnodeType[x]){
+                        keynode2.push(ee);
+                    }
+                }
+
+                for(var bb in node2Type){
+                    for(var ww in keynode2){
+                        if(node2Fetch[keynode2[ww]] == node2Type[bb]){
+                            if(resultColumn[keynode2[ww]] == "none")ccee++;
+                        }
+                    }
+                    if(ccee!=0) tree.push("------>"+node2Type[bb]+"==>none");
+                    else if(ccee==0) tree.push("------>"+node2Type[bb]+"==>sunburn");
+                }
             }
             count= 0;
-        }
-
-        for(var e in coll){
-            alert(e+"="+coll[e]);
         }
 
         //Display
