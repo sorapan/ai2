@@ -1,13 +1,34 @@
+body{
+
+    color: #ff4a4a;
+    background-color: rgb(25,25,25);
+}
+
 table{
 
-    border: 1px solid black;
+    border: 1px solid #ff4a4a;
     border-collapse: collapse;
+
+}
+
+input,select{
+
+    border: 0;
+    color: #ff4a4a;
+    background-color: transparent;
+
+}
+
+select{
+
+    background-color: white;
 
 }
 
 th, td{
 
-    border: 1px solid black;
+    color: #ff4a4a;
+    border: 1px solid #ff4a4a;
     padding: 5px 0 5px 0;
     width: 100px;
     text-align: center;

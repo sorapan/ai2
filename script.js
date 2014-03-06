@@ -11,8 +11,13 @@ window.onload = function(){
     var column = [];
     var tree=[];
 
+
     Entopy = EntopyCalculate(" .result",row);
     $(" #calcu").click(function(){
+
+        tree=[];
+        $(" #result").html("");
+
     $(" #variable").each(function(){
         $("."+$(this).attr("class")).each(function(){
             column[$(this).attr("class")] = GainCalculate("."+$(this).attr("class"),".result",Entopy,row);
@@ -42,7 +47,7 @@ window.onload = function(){
             else if(count==0) tree.push("==>"+rootnodeType[x]+"==>sunburn");
             else{
 
-                tree.push("==>"+rootnodeType[x]+"==>");
+                tree.push("==>"+rootnodeType[x]+"");
 
                 var entop = 0;
                 entop += info(count,rootnodeNumber[x]);
@@ -78,11 +83,13 @@ window.onload = function(){
                 });
 
                 var node2 = highestValue(coll);
-                tree.push("------>"+node2+"==>");
+                tree.push("------>"+node2+"");
+                $("."+node2+":eq(0)").removeAttr('id');
 
                 var node2Type = TypeOfValue("."+node2);
                 var node2Fetch = fetchColumn("."+node2);
-                var keynode2 = [],ccee = 0;
+                var node2Number = NumberOfType("."+node2);
+                var keynode2 = [],ccee = 0,god= 0;
 
 
                 for(var ee in resultColumn){
@@ -94,11 +101,91 @@ window.onload = function(){
                 for(var bb in node2Type){
                     for(var ww in keynode2){
                         if(node2Fetch[keynode2[ww]] == node2Type[bb]){
+                            god++;
                             if(resultColumn[keynode2[ww]] == "none")ccee++;
                         }
                     }
-                    if(ccee!=0) tree.push("------>"+node2Type[bb]+"==>none");
+                    if(ccee==god) tree.push("------>"+node2Type[bb]+"==>none");
                     else if(ccee==0) tree.push("------>"+node2Type[bb]+"==>sunburn");
+                    else{
+/////////////////////////////////////////////////////////////////////////////////////////////
+                        tree.push("------>"+node2Type[bb]+"");
+
+                        var entop2 = 0;
+                        entop2 += info(ccee,node2Number[bb]);
+                        entop2 += info(node2Number[bb]-count,node2Number[bb]);
+
+                        var coll2 = [],gainn2 = 0,countnode2 = 0;
+                        ///////////////////
+                        for(var i2 in node2Fetch) if(node2Fetch[i2] == node2Type[bb]) countnode2++;
+                        $(" #variable").each(function(){
+
+                            var classname2 =  "."+$(this).attr("class");
+                            var typeheight2 = TypeOfValue(classname2);
+                            var fetchHeight2 = fetchColumn(classname2);
+                            var nodefetchcolumn2 = fetchColumn(" ."+node2);
+                            var bb1 = 0,bb2 = 0;
+
+                            for(var zz2 in typeheight2){
+                                for(var xx2 in nodefetchcolumn2){
+                                    if(nodefetchcolumn2[xx2]==rootnodeType[bb]){
+                                        if(typeheight2[zz2]==fetchHeight2[xx2])bb1++;
+                                    }
+                                    if(resultColumn[xx2]=="none"&&nodefetchcolumn2[xx2]==node2Type[bb]){
+                                        if(typeheight2[zz2]==fetchHeight2[xx2])bb2++;
+                                    }
+                                }
+                                gainn1+=(bb1/countnode)*(info(bb2,bb1)+info(bb-bb2,bb1));
+                                bb1=0;
+                                bb2=0;
+                            }
+                            gainn2 = entop2 - gainn2;
+                            coll2[$(this).attr("class")] = gainn2;
+                            gainn2 = 0;
+                        });
+
+                        var node3 = highestValue(coll2);
+                        tree.push("++++++>"+node3+"");
+
+                        $("."+node3+":eq(0)").removeAttr('id');
+
+                        /////
+
+                        var node3Type = TypeOfValue("."+node3);
+                        var node3Fetch = fetchColumn("."+node3);
+//                        var node3Number = NumberOfType("."+node3);
+                        var keynode3 = [],ccee3 = 0,god3= 0;
+
+
+                        for(var ee3 in resultColumn){
+                            if(node2Fetch[ee3] == node2Type[bb]){
+                                keynode3.push(ee3);
+                            }
+                        }
+
+                        for(var bb3 in node3Type){
+                            for(var ww3 in keynode3){
+                                if(node3Fetch[keynode3[ww3]] == node3Type[bb3]){
+                                    god3++;
+                                    if(resultColumn[keynode3[ww3]] == "none")ccee3++;
+                                }
+                            }
+                            if(ccee3==god3) tree.push("++++++>"+node3Type[bb3]+"==>none");
+                            else if(ccee3==0) tree.push("++++++>"+node3Type[bb3]+"==>sunburn");
+                            else{
+
+                                tree.push("++++++>"+node3Type[bb3]+"==NODE4....");
+
+                            }
+                            ccee3 = 0;
+                            god3= 0;
+                        }
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+                    }
+
+                    god=0;
+                    ccee=0;
                 }
             }
             count= 0;
@@ -111,11 +198,6 @@ window.onload = function(){
 
     });
 };
-function unacceptNode(){
-
-
-
-}
 /**
  *
  * @param arr
