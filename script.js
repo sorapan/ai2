@@ -20,10 +20,7 @@ window.onload = function(){
     });
 
     tree.push(highestValue(column));
-
-
     $("."+highestValue(column)+":eq(0)").removeAttr('id');
-
 
     ////////////////check child node
 
@@ -35,57 +32,70 @@ window.onload = function(){
     var resultType = TypeOfValue(" .result");
     var count = 0;
 
-    for(var x in rootnodeType){
-        for(var y in resultColumn){
-            if(resultColumn[y] == "none"){
-                if(rootnodeType[x] == rootnodeFetch[y]) count++;
+        for(var x in rootnodeType){
+            for(var y in resultColumn){
+                if(resultColumn[y] == "none"){
+                    if(rootnodeType[x] == rootnodeFetch[y]) count++;
+                }
             }
-        }
-        if(count==rootnodeNumber[x]) tree.push("==>"+rootnodeType[x]+"==>none");
-        else if(count==0) tree.push("==>"+rootnodeType[x]+"==>sunburn");
-        else{
+            if(count==rootnodeNumber[x]) tree.push("==>"+rootnodeType[x]+"==>none");
+            else if(count==0) tree.push("==>"+rootnodeType[x]+"==>sunburn");
+            else{
 
-            tree.push("==>"+rootnodeType[x]+"==>");
+                tree.push("==>"+rootnodeType[x]+"==>");
 
-            var entop = 0;
-            entop += info(count,rootnodeNumber[x]);
-            entop += info(rootnodeNumber[x]-count,rootnodeNumber[x]);
+                var entop = 0;
+                entop += info(count,rootnodeNumber[x]);
+                entop += info(rootnodeNumber[x]-count,rootnodeNumber[x]);
 
+                var coll = [],gainn1 = 0,countnode = 0;
+                ///////////////////
+                for(var i in rootnodeFetch) if(rootnodeFetch[i] == rootnodeType[x]) countnode++;
+                $(" #variable").each(function(){
 
-            var coll = [],gainn1,gainn2;
-            ///////////////////
-            $(" #variable").each(function(){
-                $("."+$(this).attr("class")).each(function(){
+                    var classname =  "."+$(this).attr("class");
+                    var typeheight = TypeOfValue(classname);
+                    var fetchHeight = fetchColumn(classname);
+                    var nodefetchcolumn = fetchColumn(" ."+rootnode);
+                    var cc = 0,cc2 = 0;
 
-                    var Number = NumberOfType(" .height");
-                    var Number2 = NumberOfType(" .lotion");
-
-//                    coll[$(this).attr("class")] = GainCalculate("."+$(this).attr("class"),".result",entop,row);
-                    gainn1 = (Number[0]/rootnodeNumber[x])*(info(rootnodeNumber[x],Number[0])+info(Number[0]-rootnodeNumber[x],Number[0]))+
-                        (Number[1]/rootnodeNumber[x])*(info(rootnodeNumber[x],Number[1])+info(Number[1]-rootnodeNumber[x],Number[1]))+
-                        (Number[2]/rootnodeNumber[x])*(info(rootnodeNumber[x],Number[2])+info(Number[2]-rootnodeNumber[x],Number[2]));
+                    for(var zz in typeheight){
+                        for(var xx in nodefetchcolumn){
+                            if(nodefetchcolumn[xx]==rootnodeType[x]){
+                                if(typeheight[zz]==fetchHeight[xx])cc++;
+                            }
+                            if(resultColumn[xx]=="none"&&nodefetchcolumn[xx]==rootnodeType[x]){
+                                if(typeheight[zz]==fetchHeight[xx])cc2++;
+                            }
+                        }
+                        gainn1 += (cc/countnode)*(info(cc2,cc)+info(cc-cc2,cc));
+                        cc=0;
+                        cc2=0;
+                    }
                     gainn1 = entop - gainn1;
-
+                    coll[$(this).attr("class")] = gainn1;
+                    gainn1 = 0;
                 });
-            });
-
-            alert(gainn1);
-
+            }
+            count= 0;
         }
 
-        count= 0;
-    }
+        for(var e in coll){
+            alert(e+"="+coll[e]);
+        }
 
-    //Display
-    for(var ii in tree){
-
-        $(" #result").append(tree[ii]+"<br>");
-
-    }
+        //Display
+        for(var ii in tree){
+            $(" #result").append(tree[ii]+"<br>");
+        }
 
     });
-
 };
+function unacceptNode(){
+
+
+
+}
 /**
  *
  * @param arr
